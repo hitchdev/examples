@@ -51,15 +51,25 @@ class Engine(BaseEngine):
             "path": Str(),
             "method": Str(),
             Optional("headers"): MapPattern(Str(), Str()),
+        }),
+        response=Map({
+            "code": Int(),
         })
     )
-    def call_api(self, request, request_content="", response_content=""):
+    def call_api(self, request, response=None, request_content="", response_content=""):
         actual_response = requests.request(
             request["method"],
             "http://127.0.0.1:5000/" + request["path"],
             data=request_content,
             headers=request.get("headers", {}),
         )
+        
+        if response is not None:
+            assert response["code"] == actual_response.status_code, \
+                (
+                    f"Response code was {actual_response.status_code}, "
+                    f"should be {response['code']}."
+                )
         
         try:
             Templex(response_content).assert_match(actual_response.text)

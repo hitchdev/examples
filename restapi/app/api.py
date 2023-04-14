@@ -55,18 +55,5 @@ def delete_todo(index):
     except IndexError:
         return jsonify({"message": "Item not found"}), 404
 
-@app.route('/')
-def index():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/styles.css')
-def styles():
-    return send_from_directory('.', 'styles.css')
-
-@app.route('/script.js')
-def script():
-    return send_from_directory('.', 'script.js')
-
-
 if __name__ == '__main__':
     app.run(debug=True)
