@@ -1,7 +1,11 @@
 # HitchStory Examples
 
-This project contains complete examples for how hitchstory
-can be used in four types of projects:
+This project contains complete examples for how
+[HitchStory](https://hitchdev.com/hitchstory)
+can be used to test, specify and document four
+types of projects.
+
+They are all to do list apps.
 
 - [ ] Command line app (commandline)
 - [ ] Python API (pythonapi)
@@ -11,8 +15,8 @@ can be used in four types of projects:
 These projects can be used to demonstrate:
 
 * Acceptance Test Driven Development
-* Self rewriting tests
-* Documentation generation (triality)
+* Stories that rewrite themselves
+* Stories that generate markdown documentation
 
 
 ## Getting started
@@ -33,13 +37,27 @@ $ ./key.sh make
 $ ./key.sh regression
 ```
 
-## Running one test
+## Run singular test
 
 ```
-$ ./key.sh atdd keyword
+$ ./key.sh atdd correct
+```
+
+## Run singular test
+
+```
+$ ./key.sh atdd correct
+```
+
+## Run singular test in rewrite mode
+
+```
+$ ./key.sh ratdd correct
 ```
 
 ## Generate documentation from stories
+
+NOT AVAILABLE YET
 
 ```
 $ ./key.sh docgen
@@ -48,4 +66,7 @@ $ ./key.sh docgen
 
 # About
 
-All apps here are based upon [this simple TODO app](https://github.com/ovinokurov/ToDo).
+All apps here are based upon [this simple to do app](https://github.com/ovinokurov/ToDo).
+
+If you'd like to introduce these advanced capabilities
+on your project, [contact here now](hitchdev.com/consulting).
