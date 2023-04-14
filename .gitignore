@@ -1,0 +1,9 @@
+.vscode/
+venv/
+
+docs/snippets/
+docs/draft/
+docs/src/using/
+
+*.pyc
+__pycache__
