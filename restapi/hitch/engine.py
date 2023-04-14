@@ -12,85 +12,69 @@ from path import Path
 from shlex import split
 from templex import Templex
 from commandlib import Command
+import requests
+import time
+
+class App:
+    """Interact directly with the app via podman."""
+    def __init__(self, podman):
+        self._podman = podman
+    
+    def start(self):
+        self._podman("run", "-d", "app").output()
+        
+    def wait_until_ready(self):
+        # Really bad way to do it
+        time.sleep(1)
+    
+    def stop(self):
+        self._podman("stop", "--latest", "--time", "1").output()
+    
+    def logs(self):
+        self._podman("logs", "--latest").run()
+        
 
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
     def __init__(self, paths, rewrite=False):
         self._path = paths
+        self._app = App(Command("podman").in_dir(self._path.project))
         self._rewrite = rewrite
-
-    #given_definition = GivenDefinition(
-        #files=GivenProperty(MapPattern(Str(), Str())),
-    #)
-
-    #info_definition = InfoDefinition(
-        #status=InfoProperty(schema=Enum(["experimental", "stable"])),
-        #docs=InfoProperty(schema=Str()),
-    #)
-
-    #def __init__(self, keypath, python_path=None, rewrite=False, cprofile=False):
-        #self.path = keypath
-        #self._python_path = python_path
-        #self._rewrite = rewrite
-        #self._cprofile = cprofile
-
-    #def set_up(self):
-        #"""Set up your applications and the test environment."""
-        #self.path.profile = self.path.gen.joinpath("profile")
-        #self.path.working = self.path.gen.joinpath("working")
-
-        #if self.path.working.exists():
-            #self.path.working.rmtree()
-        #self.path.working.mkdir()
-
-        #for filename, contents in self.given["files"].items():
-            #self.path.working.joinpath(filename).write_text(contents)
-
-        #if not self.path.profile.exists():
-            #self.path.profile.mkdir()
-
-        #self.python = Command(self._python_path)
-        #self.orji_bin = Command(self._python_path.parent / "orji")
-
-    #@no_stacktrace_for(AssertionError)
-    #@validate(cmd=Str(), output=Str(), error=Bool())
-    #def orji(self, cmd, output, error=False):
-        #command = self.orji_bin(*split(cmd)).in_dir(self.path.working)
-
-        #if error:
-            #command = command.ignore_errors()
-
-        #actual_output = command.output()
-
-        #try:
-            #Templex(actual_output).assert_match(output)
-        #except AssertionError:
-            #if self._rewrite:
-                #self.current_step.update(output=actual_output)
-            #else:
-                #raise
-
-    #@no_stacktrace_for(AssertionError)
-    #def pdf(self, cmd):
-        #output = self.orji_bin(*split(cmd)).in_dir(self.path.working).output()
-        #self.path.working.joinpath("latex.tex").write_text(output)
-        #from commandlib import Command
-
-        #self.path.working.chdir()
-        ## import IPython ; IPython.embed()
-        #Command("pdflatex", "latex.tex").in_dir(self.path.working).run()
-
-    #def pause(self, message="Pause"):
-        #import IPython
-
-        #IPython.embed()
-
-    #def on_success(self):
-        #if self._rewrite:
-            #self.new_story.save()
-        #if self._cprofile:
-            #self.python(
-                #self.path.key.joinpath("printstats.py"),
-                #self.path.profile.joinpath("{0}.dat".format(self.story.slug)),
-            #).run()
+    
+    def set_up(self):
+        self._app.start()
+        self._app.wait_until_ready()
+    
+    @validate(
+        request=Map({
+            "path": Str(),
+            "method": Str(),
+            Optional("headers"): MapPattern(Str(), Str()),
+        })
+    )
+    def call_api(self, request, request_content="", response_content=""):
+        actual_response = requests.request(
+            request["method"],
+            "http://127.0.0.1:5000/" + request["path"],
+            data=request_content,
+            headers=request.get("headers", {}),
+        )
+        
+        try:
+            Templex(response_content).assert_match(actual_response.text)
+        except AssertionError:
+            if self._rewrite:
+                self.current_step.update(response_content=actual_response.text)
+            else:
+                raise
+        
+    def tear_down(self):
+        self._app.stop()
+    
+    def on_failure(self, result):
+        self._app.logs()
+    
+    def on_success(self):
+        if self._rewrite:
+            self.new_story.save()

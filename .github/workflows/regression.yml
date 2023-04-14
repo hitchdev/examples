@@ -1,0 +1,31 @@
+name: Regression
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - master
+  pull_request:
+
+jobs:
+  regression:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      #- name: make arm containers work
+        #run: |
+          #sudo apt-get update
+          #sudo apt-get install qemu-system-arm qemu-efi qemu-user-static -y
+
+      - name: build restapi
+        run: |
+          cd restapi
+          ./key.sh make
+
+      - name: regression
+        run: |
+          cd restapi
+          ./key.sh regression
