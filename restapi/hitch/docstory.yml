@@ -1,38 +1,24 @@
 story: |
-  {%- if title -%}
-  ---
-  title: {{ name }}
-  ---
   # {{ name }}
-  {% endif %}
   
   {{ about }}
-  
-  {% for name, prop in given.items() %}
-  {{ prop.documentation() }}
-  {% endfor %}
   
   {% for step in steps %}
   {{ step.documentation() }}
   {% endfor %}
-
-given:
-  files: |
-    {% for filename, contents in files.items() %}
-
-    {{ filename }}
-    ```{{ filename.split(".")[1] }}
-    {{ contents }}
-    ```
-    {% endfor %}
 steps:
-  orji: |
-    Running:
-    ```bash
-    orji {{ cmd }}
-    ```
+  call api: |
+    ## {{ request["method"] }} request
     
-    {% if error %}Will error with:{% else %}Will output:{% endif %}
+    Request on {{ request["path"] }}
+    
+    {% if request_content %}
+    ```json
+    {{ request_content }}
     ```
-    {{ output }}
+    {% endif %}
+    
+    Will respond with:
+    ```json
+    {{ response_content }}
     ```

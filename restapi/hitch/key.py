@@ -4,12 +4,14 @@ from commandlib import Command
 from engine import Engine
 from pathlib import Path
 
+PROJECT_DIRECTORY = Path(__file__).absolute().parents[0].parent
 
 class DIR:
     """All relevant directories"""
-    key = Path(__file__).absolute().parents[0]
-    project = Path(__file__).absolute().parents[0].parent
-    story = Path(__file__).absolute().parents[0] / "story"
+    key = PROJECT_DIRECTORY / "hitch"
+    project = PROJECT_DIRECTORY
+    story = PROJECT_DIRECTORY / "story"
+    docs = PROJECT_DIRECTORY / "docs"
 
 
 @group(invoke_without_command=True)
@@ -50,6 +52,19 @@ def regression():
     Run all child tests.
     """
     _storybook().only_uninherited().ordered_by_name().play()
+
+
+@cli.command()
+def docgen():
+    """
+    Generate documentation using docstory.yml templates.
+    """
+    storydocs = _storybook().with_documentation(
+        DIR.project.joinpath("hitch", "docstory.yml").read_text()
+    )
+
+    for story in storydocs.ordered_by_file():
+        DIR.docs.joinpath(story.slug + ".md").write_text(story.documentation())
 
 
 @cli.command()
