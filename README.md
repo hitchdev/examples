@@ -3,10 +3,10 @@
 This project contains complete examples for how hitchstory
 can be used in four types of projects:
 
-* Command line app (commandline)
-* Python API (pythonapi)
-* REST API (restapi)
-* Website (with playwright) (website)
+- [ ] Command line app (commandline)
+- [ ] Python API (pythonapi)
+- [X] REST API (restapi)
+- [ ] Website (with playwright) (website)
 
 These projects can be used to demonstrate:
 
@@ -19,11 +19,15 @@ These projects can be used to demonstrate:
 
 ```bash
 $ git clone https://github.com/hitchdev/examples.git
-$ cd examples/commandline
+
+Either:
+
+```bash
+$ cd examples/restapi
 $ ./key.sh make
 ```
 
-## Running all tests
+## Run all tests
 
 ```
 $ ./key.sh regression
