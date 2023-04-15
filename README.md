@@ -1,5 +1,7 @@
 # HitchStory Examples
 
+[![Example Tests Running on Github Actions](https://github.com/hitchdev/examples/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/examples/actions/workflows/regression.yml)
+
 This project contains complete examples for how
 [HitchStory](https://hitchdev.com/hitchstory)
 can be used to test, specify and document four
