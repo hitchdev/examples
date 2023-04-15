@@ -4,7 +4,7 @@
 
 This project contains complete examples for how
 [HitchStory](https://hitchdev.com/hitchstory)
-can be used to testing and living documentation framework:
+can be used as a testing and living documentation framework:
 
 - [X] REST API (restapi)
 - [X] Website (with playwright) (website)
@@ -95,3 +95,12 @@ The website also runs a separate playwright container inside the hitch container
 
 The hitch container is run with a "gen" volume. This is a podman volume that
 contains all builds necessary to run the app.
+
+
+# Future work on examples
+
+- [ ] Generate website images and videos with playwright for use in documentation.
+- [ ] Mount code folder with podman so changes reflect instantaneously.
+- [ ] Use postgres with to do apps, and use given preconditions to fill database.
+- [ ] Mock the passage of time - to do app with reminder.
+- [ ] Show off inheritance (e.g. with a logging in story).
