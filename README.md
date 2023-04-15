@@ -6,10 +6,10 @@ This project contains complete examples for how
 [HitchStory](https://hitchdev.com/hitchstory)
 can be used as a testing and living documentation framework:
 
-- [X] REST API (restapi)
-- [X] Website (with playwright) (website)
-- [X] Command line app (commandline)
-- [ ] Python API (pythonapi)
+- REST API (restapi)
+- Website (with playwright) (website)
+- Command line app (commandline)
+- Python API (pythonapi)
 
 These projects show of various aspects of the framework including:
 
