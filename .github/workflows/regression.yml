@@ -1,4 +1,4 @@
-name: Regression
+name: Example Tests Running on Github Actions
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v2
 
-      #- name: make arm containers work
+      #- name: make containers work running on arm
         #run: |
           #sudo apt-get update
           #sudo apt-get install qemu-system-arm qemu-efi qemu-user-static -y
