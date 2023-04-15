@@ -13,6 +13,7 @@ function displayTodoList() {
       todoList.innerHTML = '';
       data.forEach((item, index) => {
         const li = document.createElement('li');
+        li.classList.add('test-todo-list-item');
         li.textContent = item;
         const removeButton = document.createElement('button');
         removeButton.textContent = 'Remove';

@@ -14,7 +14,16 @@ from templex import Templex
 from commandlib import Command
 import requests
 import time
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
+from slugify import slugify
+
+
+# This lets IPython.embed play well with playwright
+# since they both run an event loop
+import nest_asyncio
+nest_asyncio.apply()
+# Use __import__('IPython').embed()
+
 
 
 class App:
@@ -65,6 +74,7 @@ class Engine(BaseEngine):
         self._playwright_server = PlaywrightServer(
             Command("podman").in_dir(self._path.project)
         )
+        self._take_screenshots = True
         self._rewrite = rewrite
 
     def set_up(self):
@@ -75,11 +85,39 @@ class Engine(BaseEngine):
         self._playwright_server.wait_until_ready()
         self._playwright = sync_playwright().start()
         self._browser = self._playwright.chromium.connect(self._playwright_server.ws())
+        self._page = self._browser.new_page()
+        self._page.set_default_navigation_timeout(10000)
+        self._page.set_default_timeout(10000)
 
     def load_website(self):
-        page = self._browser.new_page()
-        page.goto("http://localhost:5000")
-        # page.screenshot(path=f'example-1.png')
+        self._page.goto("http://localhost:5000")
+        self._screenshot()
+    
+    def enter(self, on, text):
+        self._page.get_by_test_id(slugify(on)).fill(text)
+        self._screenshot()
+    
+    def click(self, on):
+        self._page.get_by_test_id(slugify(on)).click()
+    
+    def _screenshot(self):
+        if self._take_screenshots:
+            filename = "{}-{}-{}.png".format(
+                self.story.slug,
+                self.current_step.index,
+                self.current_step.slug,
+            )
+            self._page.screenshot(path=self._path.project / "screenshots" / filename)
+
+    def should_appear(self, on, which, text):
+        which = 0 if which == "first" else int(which) - 1
+        item = self._page.locator(".test-{}".format(slugify(on))).nth(which)
+        expect(item).to_contain_text(text)
+        self._screenshot()
+
+    def pause(self):
+        __import__('IPython').embed()
+
 
     def tear_down(self):
         if hasattr(self, "_browser"):
@@ -90,6 +128,10 @@ class Engine(BaseEngine):
         self._app.stop()
 
     def on_failure(self, result):
+        self._page.screenshot(path=self._path.project / "screenshots" / "failure.png")
+        self._path.project.joinpath("screenshots", "failure.html").write_text(
+            self._page.content()
+        )
         self._app.logs()
 
     def on_success(self):

@@ -6,3 +6,4 @@ commandlib
 icommandlib
 requests
 playwright
+nest_asyncio

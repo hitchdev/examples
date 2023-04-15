@@ -1,8 +1,10 @@
-from hitchstory import StoryCollection
-from click import argument, group, pass_context
+from hitchstory import StoryCollection, HitchStoryException
+from click import argument, group, pass_context, echo
 from commandlib import Command, python_bin
 from engine import Engine
 from pathlib import Path
+from sys import exit
+
 
 PROJECT_DIRECTORY = Path(__file__).absolute().parents[0].parent
 
@@ -43,7 +45,11 @@ def atdd(keywords):
     """
     Run story with name containing keywords.
     """
-    _storybook().shortcut(*keywords).play()
+    try:
+        _storybook().shortcut(*keywords).play()
+    except HitchStoryException as error:
+        echo(error)
+        exit(1)
 
 
 @cli.command()
@@ -69,7 +75,7 @@ def docgen():
 
 @cli.command()
 def build():
-    """Build app, install playwright."""
+    """Build app and playwright server container."""
     Command("podman", "build", ".", "-t", "app").in_dir(DIR.project).run()
     Command(
         "podman", "build", "-f", "hitch/Dockerfile-playwright", "-t", "playwright"

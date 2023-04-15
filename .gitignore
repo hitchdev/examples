@@ -1,9 +1,7 @@
 .vscode/
 venv/
 
-docs/snippets/
-docs/draft/
-docs/src/using/
+website/screenshots/
 
 *.pyc
 __pycache__
