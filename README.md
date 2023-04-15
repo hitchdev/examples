@@ -84,7 +84,9 @@ $ ./key.sh docgen
 
 # About
 
-All apps here are based upon
-[this simple to do app](https://github.com/ovinokurov/ToDo).
+The tests are all based on
+[this great little to do app](https://github.com/ovinokurov/ToDo)
+built by [Oleg Vinokurov](https://github.com/ovinokurov) which was built
+with a CLI, REST and web interface.
 
 If you'd like to introduce capabilities like these to your project, [contact me now](hitchdev.com/consulting) for a free consultation.
