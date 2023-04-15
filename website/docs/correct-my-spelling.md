@@ -8,35 +8,12 @@ instead of adding it to the to do list.
 
 
 
-## POST request
+* When the website is loaded
 
-Request on /todo
+* Enter text `biuy breod` on `todo text`.
 
-
-```json
-{
-    "item": "biuy breod"
-}
-
-```
+* Click on `add`.
 
 
-Will respond with:
-```json
-{
-  "message": "buy bread"
-}
+* Then text `Did you mean "buy bread"?` should appear on `error`.
 
-```
-
-## GET request
-
-Request on /todo
-
-
-
-Will respond with:
-```json
-[]
-
-```

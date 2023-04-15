@@ -25,7 +25,21 @@ These projects can be used to demonstrate:
 
 ```bash
 $ git clone https://github.com/hitchdev/examples.git
+```
+
+Go to the relevant project folder:
+
+```bash
 $ cd examples/restapi
+```
+
+OR
+
+```bash
+$ cd examples/website
+```
+
+```bash
 $ ./key.sh make
 ```
 
@@ -39,7 +53,7 @@ $ ./key.sh regression
 
 ## Run singular test
 
-This command can be used to drive development of new features.
+This command can be used to acceptance test driven development.
 
 ```
 $ ./key.sh atdd correct
@@ -56,9 +70,10 @@ $ ./key.sh ratdd correct
 
 ## Generate documentation from stories
 
-* Using stories in the [story folder](https://github.com/hitchdev/examples/tree/main/restapi/story).
-* And the [story->text template](https://github.com/hitchdev/examples/blob/main/restapi/hitch/docstory.yml).
-* The documentation in the [docs](https://github.com/hitchdev/examples/tree/main/restapi/docs) folder is generated.
+Project | Stories | Story->Markdown Template | Markdown Docs
+---|---|---|---
+REST API | [stories](https://github.com/hitchdev/examples/tree/main/restapi/story) | [template](https://github.com/hitchdev/examples/blob/main/restapi/hitch/docstory.yml) | [docs](https://github.com/hitchdev/examples/tree/main/restapi/docs) 
+Website | [stories](https://github.com/hitchdev/examples/tree/main/website/story) | [template](https://github.com/hitchdev/examples/blob/main/website/hitch/docstory.yml) | [docs](https://github.com/hitchdev/examples/tree/main/website/docs) 
 
 Running this command will regenerated the docs.
 

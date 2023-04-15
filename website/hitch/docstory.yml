@@ -7,18 +7,18 @@ story: |
   {{ step.documentation() }}
   {% endfor %}
 steps:
-  call api: |
-    ## {{ request["method"] }} request
+  load website: |
+    * When the website is loaded
+
+  enter: |
+    * Enter text `{{ text }}` on `{{ on }}`.
     
-    Request on {{ request["path"] }}
+  click: |
+    * Click on `{{ on }}`.
     
-    {% if request_content %}
-    ```json
-    {{ request_content }}
-    ```
+  should appear: |
+    {% if which -%}
+    * Then text `{{ text }}` should appear on {{ which }} `{{ on }}`.
+    {% else %}
+    * Then text `{{ text }}` should appear on `{{ on }}`.
     {% endif %}
-    
-    Will respond with:
-    ```json
-    {{ response_content }}
-    ```

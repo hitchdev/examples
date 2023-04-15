@@ -68,13 +68,13 @@ class PlaywrightServer:
 class Engine(BaseEngine):
     """Python engine for running tests."""
 
-    def __init__(self, paths, rewrite=False):
+    def __init__(self, paths, rewrite=False, take_screenshots=False):
         self._path = paths
         self._app = App(Command("podman").in_dir(self._path.project))
         self._playwright_server = PlaywrightServer(
             Command("podman").in_dir(self._path.project)
         )
-        self._take_screenshots = True
+        self._take_screenshots = take_screenshots
         self._rewrite = rewrite
 
     def set_up(self):

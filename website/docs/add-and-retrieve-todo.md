@@ -5,37 +5,11 @@ and then see that bread is on the list.
 
 
 
-## POST request
+* When the website is loaded
 
-Request on /todo
+* Enter text `Add bread` on `todo text`.
 
+* Click on `add`.
 
-```json
-{
-    "item": "buy bread"
-}
+* Then text `Add bread` should appear on first `todo list item`.
 
-```
-
-
-Will respond with:
-```json
-{
-  "message": "Item added successfully"
-}
-
-```
-
-## GET request
-
-Request on /todo
-
-
-
-Will respond with:
-```json
-[
-  "buy bread"
-]
-
-```

@@ -60,6 +60,13 @@ def regression():
     _storybook().only_uninherited().ordered_by_name().play()
 
 
+def screenshotgen():
+    """
+    Regenerate screenshots for use in docs.
+    """
+    _storybook(take_screenshots=True).only_uninherited().ordered_by_name().play()
+    
+
 @cli.command()
 def docgen():
     """
@@ -69,8 +76,10 @@ def docgen():
         DIR.project.joinpath("hitch", "docstory.yml").read_text()
     )
 
+    print("Generating")
     for story in storydocs.ordered_by_file():
         DIR.docs.joinpath(story.slug + ".md").write_text(story.documentation())
+    print("Done")
 
 
 @cli.command()

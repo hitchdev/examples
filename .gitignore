@@ -1,7 +1,7 @@
 .vscode/
 venv/
 
-website/screenshots/
+website/screenshots/failure.*
 
 *.pyc
 __pycache__
