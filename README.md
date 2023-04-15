@@ -64,6 +64,7 @@ Project | Stories | Story->Markdown Template | Markdown Docs
 REST API | [stories](https://github.com/hitchdev/examples/tree/main/restapi/story) | [template](https://github.com/hitchdev/examples/blob/main/restapi/hitch/docstory.yml) | [docs](https://github.com/hitchdev/examples/tree/main/restapi/docs) 
 Website | [stories](https://github.com/hitchdev/examples/tree/main/website/story) | [template](https://github.com/hitchdev/examples/blob/main/website/hitch/docstory.yml) | [docs](https://github.com/hitchdev/examples/tree/main/website/docs) 
 Command Line | [stories](https://github.com/hitchdev/examples/tree/main/commandline/story) | [template](https://github.com/hitchdev/examples/blob/main/commandline/hitch/docstory.yml) | [docs](https://github.com/hitchdev/examples/tree/main/commandline/docs) 
+Python API | [stories](https://github.com/hitchdev/examples/tree/main/pythonapi/story) | [template](https://github.com/hitchdev/examples/blob/main/pythonapi/hitch/docstory.yml) | [docs](https://github.com/hitchdev/examples/tree/main/pythonapi/docs) 
 
 Running this command in any of the above project folders will regenerate the docs for that project.
 
