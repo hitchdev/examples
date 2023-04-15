@@ -8,7 +8,7 @@ can be used to testing and living documentation framework:
 
 - [X] REST API (restapi)
 - [X] Website (with playwright) (website)
-- [ ] Command line app (commandline)
+- [X] Command line app (commandline)
 - [ ] Python API (pythonapi)
 
 These projects show of various aspects of the framework including:
@@ -63,8 +63,9 @@ Project | Stories | Story->Markdown Template | Markdown Docs
 ---|---|---|---
 REST API | [stories](https://github.com/hitchdev/examples/tree/main/restapi/story) | [template](https://github.com/hitchdev/examples/blob/main/restapi/hitch/docstory.yml) | [docs](https://github.com/hitchdev/examples/tree/main/restapi/docs) 
 Website | [stories](https://github.com/hitchdev/examples/tree/main/website/story) | [template](https://github.com/hitchdev/examples/blob/main/website/hitch/docstory.yml) | [docs](https://github.com/hitchdev/examples/tree/main/website/docs) 
+Command Line | [stories](https://github.com/hitchdev/examples/tree/main/commandline/story) | [template](https://github.com/hitchdev/examples/blob/main/commandline/hitch/docstory.yml) | [docs](https://github.com/hitchdev/examples/tree/main/commandline/docs) 
 
-Running this command will regenerated the docs.
+Running this command in any of the above project folders will regenerate the docs for that project.
 
 ```
 $ ./key.sh docgen
