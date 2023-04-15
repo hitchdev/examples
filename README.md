@@ -4,42 +4,31 @@
 
 This project contains complete examples for how
 [HitchStory](https://hitchdev.com/hitchstory)
-can be used to test, specify and document four
-types of projects.
-
-They are all to do list apps.
+can be used to testing and living documentation framework:
 
 - [X] REST API (restapi)
 - [X] Website (with playwright) (website)
 - [ ] Command line app (commandline)
 - [ ] Python API (pythonapi)
 
-These projects can be used to demonstrate:
+These projects show of various aspects of the framework including:
 
 * Acceptance Test Driven Development
 * Stories that rewrite themselves
-* Stories that generate markdown documentation
+* Stories that autogenerate markdown documentation, demonstrating [triality](https://hitchdev.com/hitchstory/approach/triality/).
 
+HitchStory is entirely open source and free to use.
+
+If you'd like help with introducing capabilities like these to your project, [contact me now](hitchdev.com/consulting) for a free consultation.
 
 ## Getting started
 
+All functionality is automated and can be run via one of the key.sh
+scripts. **Podman must be installed on your system first though.**
+
 ```bash
 $ git clone https://github.com/hitchdev/examples.git
-```
-
-Go to the relevant project folder:
-
-```bash
-$ cd examples/restapi
-```
-
-OR
-
-```bash
-$ cd examples/website
-```
-
-```bash
+$ cd examples/[ RELEVANT PROJECT FOLDER ]
 $ ./key.sh make
 ```
 
@@ -82,11 +71,10 @@ $ ./key.sh docgen
 ```
 
 
-# About
+# About the stories
 
 The tests are all based on
 [this great little to do app](https://github.com/ovinokurov/ToDo)
 built by [Oleg Vinokurov](https://github.com/ovinokurov) which was built
-with a CLI, REST and web interface.
+with a command line, REST and web interface.
 
-If you'd like to introduce capabilities like these to your project, [contact me now](hitchdev.com/consulting) for a free consultation.
