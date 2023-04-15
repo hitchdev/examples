@@ -72,7 +72,7 @@ def build():
     """Build app, install playwright."""
     Command("podman", "build", ".", "-t", "app").in_dir(DIR.project).run()
     Command(
-        "podman", "build", "-f", "hitch/Dockerfile-playwright", "playwright"
+        "podman", "build", "-f", "hitch/Dockerfile-playwright", "-t", "playwright"
     ).in_dir(DIR.project).run()
 
 

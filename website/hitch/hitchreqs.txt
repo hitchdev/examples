@@ -6,4 +6,3 @@ commandlib
 icommandlib
 requests
 playwright
-git+https://github.com/YusukeIwaki/playwright-python-remote
