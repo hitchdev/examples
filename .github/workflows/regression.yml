@@ -52,3 +52,14 @@ jobs:
         run: |
           cd commandline
           ./key.sh regression
+
+          
+      - name: build python api
+        run: |
+          cd pythonapi
+          ./key.sh make
+
+      - name: regression test python api
+        run: |
+          cd pythonapi
+          ./key.sh regression
