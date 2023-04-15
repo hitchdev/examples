@@ -7,3 +7,13 @@ Correct my spelling:
     instead of adding it to the to do list.
   steps:
   - load website
+  
+  - enter:
+      on: todo text
+      text: biuy breod
+
+  - click: add
+
+  - should appear:
+      text: Did you mean "buy bread"?
+      on: error

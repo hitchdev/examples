@@ -109,9 +109,12 @@ class Engine(BaseEngine):
             )
             self._page.screenshot(path=self._path.project / "screenshots" / filename)
 
-    def should_appear(self, on, which, text):
-        which = 0 if which == "first" else int(which) - 1
-        item = self._page.locator(".test-{}".format(slugify(on))).nth(which)
+    def should_appear(self, on, text, which=None):
+        if which is None:
+            item = self._page.get_by_test_id(slugify(on))
+        else:
+            which = 0 if which == "first" else int(which) - 1
+            item = self._page.locator(".test-{}".format(slugify(on))).nth(which)
         expect(item).to_contain_text(text)
         self._screenshot()
 
