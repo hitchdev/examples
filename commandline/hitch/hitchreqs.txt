@@ -1,0 +1,7 @@
+hitchstory
+click
+ipython
+templex
+commandlib
+icommandlib
+requests

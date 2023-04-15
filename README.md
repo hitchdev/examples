@@ -71,10 +71,26 @@ $ ./key.sh docgen
 ```
 
 
-# About the stories
+## Clean everything
 
-The tests are all based on
+This will everything created to run these tests (container/volume):
+
+```
+$ ./key.sh clean all
+```
+
+# About the projects
+
+The four folders contain four versions of the same project -
 [this great little to do app](https://github.com/ovinokurov/ToDo)
 built by [Oleg Vinokurov](https://github.com/ovinokurov) which was built
 with a command line, REST and web interface.
 
+The ./key.sh scripts runs the app in a container *inside* the hitch container.
+
+This is done to segregate the test code from the application code.
+
+The website also runs a separate playwright container inside the hitch container.
+
+The hitch container is run with a "gen" volume. This is a podman volume that
+contains all builds necessary to run the app.
