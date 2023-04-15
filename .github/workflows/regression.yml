@@ -41,3 +41,14 @@ jobs:
         run: |
           cd website
           ./key.sh regression
+
+          
+      - name: build command line
+        run: |
+          cd commandline
+          ./key.sh make
+
+      - name: regression test commandline
+        run: |
+          cd commandline
+          ./key.sh regression
