@@ -7,10 +7,10 @@ types of projects.
 
 They are all to do list apps.
 
+- [X] REST API (restapi)
+- [X] Website (with playwright) (website)
 - [ ] Command line app (commandline)
 - [ ] Python API (pythonapi)
-- [X] REST API (restapi)
-- [ ] Website (with playwright) (website)
 
 These projects can be used to demonstrate:
 

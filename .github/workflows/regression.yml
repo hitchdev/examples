@@ -25,7 +25,19 @@ jobs:
           cd restapi
           ./key.sh make
 
-      - name: regression
+      - name: regression test restapi
         run: |
           cd restapi
+          ./key.sh regression
+
+
+
+      - name: build website
+        run: |
+          cd website
+          ./key.sh make
+
+      - name: regression test website
+        run: |
+          cd website
           ./key.sh regression
