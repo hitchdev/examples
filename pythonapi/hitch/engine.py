@@ -20,10 +20,11 @@ import time
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
+
     def __init__(self, paths, rewrite=False):
         self._path = paths
         self._rewrite = rewrite
-    
+
     def set_up(self):
         self.python = Command("/gen/devenv/bin/python")
 
@@ -73,13 +74,12 @@ class Engine(BaseEngine):
                 else:
                     raise
 
-    
     def tear_down(self):
         pass
-    
+
     def on_failure(self, result):
         pass
-    
+
     def on_success(self):
         if self._rewrite:
             self.new_story.save()

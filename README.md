@@ -81,7 +81,7 @@ This will destroy everything created to run these tests (container/volume):
 $ ./key.sh clean all
 ```
 
-Note that it must be run in each project folder.
+Note that it must be run in each project folder you ran make in.
 
 # About the projects
 

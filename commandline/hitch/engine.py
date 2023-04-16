@@ -19,17 +19,18 @@ import time
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
+
     def __init__(self, paths, rewrite=False):
         self._path = paths
         self._cmd = Command("podman", "run", "-it", "app").in_dir(self._path.project)
         self._rewrite = rewrite
-    
+
     def set_up(self):
         self._iprocess = ICommand(self._cmd).run()
-    
+
     def expect(self, text):
         self._iprocess.wait_until_output_contains(text)
-        
+
     def display(self, text):
         time.sleep(0.5)
         try:
@@ -39,23 +40,24 @@ class Engine(BaseEngine):
                 self.current_step.update(text=self._iprocess.stripshot())
             else:
                 raise
-    
+
     def enter_text(self, text):
         self._iprocess.send_keys(f"{text}\n")
-    
-    
+
     def exit_successfully(self):
         self._iprocess.wait_for_successful_exit()
-        
+
     def pause(self):
-        import IPython ; IPython.embed()
-        
+        import IPython
+
+        IPython.embed()
+
     def tear_down(self):
         Command("podman", "stop", "app", "--time", "1", "-i").run()
-    
+
     def on_failure(self, result):
         pass
-    
+
     def on_success(self):
         if self._rewrite:
             self.new_story.save()

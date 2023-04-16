@@ -6,8 +6,10 @@ from pathlib import Path
 
 PROJECT_DIRECTORY = Path(__file__).absolute().parents[0].parent
 
+
 class DIR:
     """All relevant directories"""
+
     key = PROJECT_DIRECTORY / "hitch"
     project = PROJECT_DIRECTORY
     story = PROJECT_DIRECTORY / "story"
@@ -32,9 +34,7 @@ def ratdd(keywords):
     """
     Run story with name containing keywords and rewrite.
     """
-    _storybook(rewrite=True).shortcut(
-        *keywords
-    ).play()
+    _storybook(rewrite=True).shortcut(*keywords).play()
 
 
 @cli.command()

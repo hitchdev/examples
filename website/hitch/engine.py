@@ -16,7 +16,7 @@ import requests
 import time
 from playwright.sync_api import sync_playwright, expect
 from slugify import slugify
-
+from video import convert_to_slow_gif
 
 # This lets IPython.embed play well with playwright
 # since they both run an event loop
@@ -27,7 +27,7 @@ nest_asyncio.apply()
 
 
 class App:
-    """Runs the webserver."""
+    """Run and interact with the web server."""
 
     def __init__(self, podman):
         self._podman = podman
@@ -37,7 +37,7 @@ class App:
         self.wait_until_ready()
 
     def wait_until_ready(self):
-        # Really bad way to do it
+        # Not ideal - should be replaced with port listener
         time.sleep(1)
 
     def stop(self):
@@ -49,18 +49,18 @@ class App:
 
 class PlaywrightServer:
     """
-    Run the server, grab the driver, save the recordings.
+    Runs the server, grab a new page.
     """
-    def __init__(self, podman, recording_folder, do_recordings=False):
+
+    def __init__(self, podman):
         self._podman = podman
-        self._recording_folder = recording_folder
-        self._recordings = do_recordings
 
     def start(self):
         self._podman("run", "--rm", "-d", "--name", "playwright", "playwright").output()
         self.wait_until_ready()
 
     def wait_until_ready(self):
+        # Not ideal - should be replaced with logs / port listener
         time.sleep(1)
 
     def _ws(self):
@@ -74,12 +74,12 @@ class PlaywrightServer:
         if hasattr(self, "_playwright"):
             self._playwright.stop()
         self._podman("stop", "playwright", "--time", "1").output()
-    
+
     def new_page(self):
         self._playwright = sync_playwright().start()
-        self._browser = self._playwright.chromium.connect(
-            self._ws()
-        ).new_context(record_video_dir="videos/")
+        self._browser = self._playwright.chromium.connect(self._ws()).new_context(
+            record_video_dir="videos/"
+        )
         self._page = self._browser.new_page()
         self._page.set_default_navigation_timeout(10000)
         self._page.set_default_timeout(10000)
@@ -88,22 +88,23 @@ class PlaywrightServer:
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
+
     info_definition = InfoDefinition(
         context=InfoProperty(schema=Str()),
     )
 
     def __init__(self, paths, rewrite=False, recordings=False):
         self._path = paths
-        self._app = App(Command("podman").in_dir(self._path.project))
-        self._playwright_server = PlaywrightServer(
-            Command("podman").in_dir(self._path.project),
-            recording_folder=self._path.project / "screenshots",
-            do_recordings=recordings
-        )
         self._recordings = recordings
         self._rewrite = rewrite
 
+        podman = Command("podman").in_dir(self._path.project)
+
+        self._app = App(podman)
+        self._playwright_server = PlaywrightServer(podman)
+
     def set_up(self):
+        """Set up all tests."""
         self._app.start()
         self._playwright_server.start()
         self._page = self._playwright_server.new_page()
@@ -121,7 +122,9 @@ class Engine(BaseEngine):
     def _screenshot(self):
         if self._recordings:
             self._page.screenshot(
-                path=self._path.project / "screenshots" / "{}-{}-{}.png".format(
+                path=self._path.project
+                / "screenshots"
+                / "{}-{}-{}.png".format(
                     self.story.slug,
                     self.current_step.index,
                     self.current_step.slug,
@@ -141,43 +144,39 @@ class Engine(BaseEngine):
         __import__("IPython").embed()
 
     def tear_down(self):
-        self._playwright_server.stop()
-        self._app.stop()
+        """Tear down all tests"""
+        if hasattr(self, "_playwright_server"):
+            self._playwright_server.stop()
+        if hasattr(self, "_app"):
+            self._app.stop()
 
     def on_failure(self, result):
+        """Run before teardown, only on failure."""
         if hasattr(self, "_page"):
-            self._page.screenshot(path=self._path.project / "screenshots" / "failure.png")
+            self._page.screenshot(
+                path=self._path.project / "screenshots" / "failure.png"
+            )
             self._path.project.joinpath("screenshots", "failure.html").write_text(
                 self._page.content()
             )
             self._page.close()
-            self._page.video.save_as(self._path.project / "screenshots" / "failure.webm")
-        self._app.logs()
+            self._page.video.save_as(
+                self._path.project / "screenshots" / "failure.webm"
+            )
+        if hasattr(self, "_app"):
+            self._app.logs()
+
+        # Clean up
         Command("podman", "container", "rm", "--all").output()
 
     def on_success(self):
+        """Run before teardown, only on success."""
         self._page.close()
 
-        webm_path = self._path.project / "screenshots" / f"{self.story.slug}.webm"
-        gif_path = self._path.project / "screenshots" / f"{self.story.slug}.gif"
-        palette_path = self._path.project / "screenshots" / "palette.png"
-        self._page.video.save_as(webm_path)
-        ffmpeg = Command("ffmpeg", "-y")
-        ffmpeg("-i", webm_path, "-vf", "palettegen", palette_path).output()
-        ffmpeg(
-            "-i",
-            webm_path,
-            "-i",
-            palette_path,
-            "-filter_complex",
-            "paletteuse",
-            "-r",
-            "10",
-            gif_path,
-        ).output()
-        Command("convert", "-delay", "40x100", gif_path, gif_path).run()
-        webm_path.unlink()
-        palette_path.unlink()
+        if self._recordings:
+            webm_path = self._path.project / "screenshots" / f"{self.story.slug}.webm"
+            self._page.video.save_as(webm_path)
+            convert_to_slow_gif(webm_path)
 
         if self._rewrite:
             self.new_story.save()
