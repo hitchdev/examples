@@ -103,21 +103,21 @@ The four folders contain four versions of the same project -
 built by [Oleg Vinokurov](https://github.com/ovinokurov) which was built
 with a command line, REST and web interface.
 
-The pythonapi project is just run in the Hitch container.
+For the pythonapi project everything is just run in the Hitch container (test and code-under-test in separate virtualenvs).
 
 The interactive command line app and REST API have a podman-in-podman:
 
 ```mermaid
 graph TD;
-    Hitch Container-->App Container;
+    HitchContainer-->AppContainer;
 ```
 
 While the website app is tested with a parent hitch container building and running the app and playwright containers:
 
 ```mermaid
 graph TD;
-    Hitch Container-->App Container;
-    Hitch Container-->Playwright Container;
+    HitchContainer-->AppContainer;
+    HitchContainer-->PlaywrightContainer;
 ```
 
 This is done to segregate the test code from the application code.
