@@ -1,7 +1,7 @@
 # Add and retrieve todo
 
-In this story we call the API to buy bread
-and then see that bread is on the list.
+The user adds "buy bread" to the to do list
+and sees it showing up.
 
 
 ## Video
@@ -17,7 +17,7 @@ and then see that bread is on the list.
 * When the website is loaded
 
 <img 
-  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-1-screenshot.png"
+  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-0-load_website.png"
   height="250px"
 />
 
@@ -29,7 +29,7 @@ and then see that bread is on the list.
 
 
 <img 
-  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-5-screenshot.png"
+  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-3-should_appear.png"
   height="250px"
 />
 

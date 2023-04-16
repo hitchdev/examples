@@ -1,8 +1,9 @@
 # Correct my spelling
 
-In this story we call the API and send it misspellings.
+The user tries to add "biuy breod" to the to do list
+but the application tries to correct the spelling.
 
-The API uses TextBlob (https://textblob.readthedocs.io/en/dev/)
+The website uses TextBlob (https://textblob.readthedocs.io/en/dev/)
 to detect misspellings and replies to the API with a suggestion
 instead of adding it to the to do list.
 
@@ -20,7 +21,7 @@ instead of adding it to the to do list.
 * When the website is loaded
 
 <img 
-  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling-1-screenshot.png"
+  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling-0-load_website.png"
   height="250px"
 />
 
@@ -33,7 +34,7 @@ instead of adding it to the to do list.
 
 
 <img 
-  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling-5-screenshot.png"
+  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling-3-should_appear.png"
   height="250px"
 />
 

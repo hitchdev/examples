@@ -24,6 +24,11 @@ story: |
 steps:
   load website: |
     * When the website is loaded
+    
+    <img 
+      src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png"
+      height="250px"
+    />
 
   enter: |
     * Enter text `{{ text }}` on `{{ on }}`.
@@ -37,8 +42,7 @@ steps:
     {% else %}
     * Then text `{{ text }}` should appear on `{{ on }}`.
     {% endif %}
-
-  screenshot: |
+    
     <img 
       src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png"
       height="250px"

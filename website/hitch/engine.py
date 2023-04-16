@@ -27,7 +27,7 @@ nest_asyncio.apply()
 
 
 class App:
-    """Interact directly with the app via podman."""
+    """Runs the webserver."""
 
     def __init__(self, podman):
         self._podman = podman
@@ -47,22 +47,42 @@ class App:
 
 
 class PlaywrightServer:
-    def __init__(self, podman):
+    """
+    Run the server, grab the driver, save the recordings.
+    """
+    def __init__(self, podman, recording_folder, do_recordings=False):
         self._podman = podman
+        self._recording_folder = recording_folder
+        self._recordings = do_recordings
 
     def start(self):
         self._podman("run", "--rm", "-d", "--name", "playwright", "playwright").output()
+        self.wait_until_ready()
 
     def wait_until_ready(self):
         time.sleep(1)
 
-    def ws(self):
+    def _ws(self):
         output = self._podman("logs", "playwright").output()
         output = output.replace("Listening on", "").strip()
         return output
 
     def stop(self):
+        if hasattr(self, "_browser"):
+            self._browser.close()
+        if hasattr(self, "_playwright"):
+            self._playwright.stop()
         self._podman("stop", "playwright", "--time", "1").output()
+    
+    def new_page(self):
+        self._playwright = sync_playwright().start()
+        self._browser = self._playwright.chromium.connect(
+            self._ws()
+        ).new_context(record_video_dir="videos/")
+        self._page = self._browser.new_page()
+        self._page.set_default_navigation_timeout(10000)
+        self._page.set_default_timeout(10000)
+        return self._page
 
 
 class Engine(BaseEngine):
@@ -72,7 +92,9 @@ class Engine(BaseEngine):
         self._path = paths
         self._app = App(Command("podman").in_dir(self._path.project))
         self._playwright_server = PlaywrightServer(
-            Command("podman").in_dir(self._path.project)
+            Command("podman").in_dir(self._path.project),
+            recording_folder=self._path.project / "screenshots",
+            do_recordings=recordings
         )
         self._recordings = recordings
         self._rewrite = rewrite
@@ -82,17 +104,11 @@ class Engine(BaseEngine):
         self._app.start()
         self._app.wait_until_ready()
         self._playwright_server.start()
-        self._playwright_server.wait_until_ready()
-        self._playwright = sync_playwright().start()
-        self._browser = self._playwright.chromium.connect(
-            self._playwright_server.ws()
-        ).new_context(record_video_dir="videos/")
-        self._page = self._browser.new_page()
-        self._page.set_default_navigation_timeout(10000)
-        self._page.set_default_timeout(10000)
+        self._page = self._playwright_server.new_page()
 
     def load_website(self):
         self._page.goto("http://localhost:5000")
+        self._screenshot()
 
     def enter(self, on, text):
         self._page.get_by_test_id(slugify(on)).fill(text)
@@ -100,7 +116,7 @@ class Engine(BaseEngine):
     def click(self, on):
         self._page.get_by_test_id(slugify(on)).click()
 
-    def screenshot(self):
+    def _screenshot(self):
         if self._recordings:
             filename = "{}-{}-{}.png".format(
                 self.story.slug,
@@ -116,25 +132,23 @@ class Engine(BaseEngine):
             which = 0 if which == "first" else int(which) - 1
             item = self._page.locator(".test-{}".format(slugify(on))).nth(which)
         expect(item).to_contain_text(text)
+        self._screenshot()
 
     def pause(self):
         __import__("IPython").embed()
 
     def tear_down(self):
-        if hasattr(self, "_browser"):
-            self._browser.close()
-        if hasattr(self, "_playwright"):
-            self._playwright.stop()
         self._playwright_server.stop()
         self._app.stop()
 
     def on_failure(self, result):
-        self._page.screenshot(path=self._path.project / "screenshots" / "failure.png")
-        self._path.project.joinpath("screenshots", "failure.html").write_text(
-            self._page.content()
-        )
-        self._page.close()
-        self._page.video.save_as(self._path.project / "screenshots" / "failure.webm")
+        if hasattr(self, "_page"):
+            self._page.screenshot(path=self._path.project / "screenshots" / "failure.png")
+            self._path.project.joinpath("screenshots", "failure.html").write_text(
+                self._page.content()
+            )
+            self._page.close()
+            self._page.video.save_as(self._path.project / "screenshots" / "failure.webm")
         self._app.logs()
 
     def on_success(self):

@@ -1,11 +1,9 @@
 Add and retrieve todo:
   about: |
-    In this story we call the API to buy bread
-    and then see that bread is on the list.
+    The user adds "buy bread" to the to do list
+    and sees it showing up.
   steps:
   - load website
-  
-  - screenshot
 
   - enter:
       on: todo text
@@ -17,5 +15,3 @@ Add and retrieve todo:
       text: Add bread
       on: todo list item
       which: first
-
-  - screenshot
