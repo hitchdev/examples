@@ -24,6 +24,18 @@ Correct my spelling:
 
   - expect: Did you mean "buy bread"?
 
+  - display: |-
+      To-do list:
+      Options:
+      1. Add item
+      2. Remove item
+      3. Quit
+      Enter your choice: 1
+      Enter a to-do item: biuy breod
+      Did you mean "buy bread"?
+      Enter Y to confirm, or any other key to re-enter:
+
+
   - expect: Enter Y to confirm
 
   - enter text: Y
