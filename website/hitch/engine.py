@@ -34,6 +34,7 @@ class App:
 
     def start(self):
         self._podman("run", "--rm", "-d", "--name", "app", "app").output()
+        self.wait_until_ready()
 
     def wait_until_ready(self):
         # Really bad way to do it
@@ -103,9 +104,7 @@ class Engine(BaseEngine):
         self._rewrite = rewrite
 
     def set_up(self):
-        Command("podman", "container", "rm", "--all").output()
         self._app.start()
-        self._app.wait_until_ready()
         self._playwright_server.start()
         self._page = self._playwright_server.new_page()
 
@@ -121,12 +120,13 @@ class Engine(BaseEngine):
 
     def _screenshot(self):
         if self._recordings:
-            filename = "{}-{}-{}.png".format(
-                self.story.slug,
-                self.current_step.index,
-                self.current_step.slug,
+            self._page.screenshot(
+                path=self._path.project / "screenshots" / "{}-{}-{}.png".format(
+                    self.story.slug,
+                    self.current_step.index,
+                    self.current_step.slug,
+                )
             )
-            self._page.screenshot(path=self._path.project / "screenshots" / filename)
 
     def should_appear(self, on, text, which=None):
         if which is None:
@@ -153,6 +153,7 @@ class Engine(BaseEngine):
             self._page.close()
             self._page.video.save_as(self._path.project / "screenshots" / "failure.webm")
         self._app.logs()
+        Command("podman", "container", "rm", "--all").output()
 
     def on_success(self):
         self._page.close()
@@ -174,6 +175,7 @@ class Engine(BaseEngine):
             "10",
             gif_path,
         ).output()
+        Command("convert", "-delay", "40x100", gif_path, gif_path).run()
         webm_path.unlink()
         palette_path.unlink()
 
