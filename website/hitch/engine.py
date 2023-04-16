@@ -138,12 +138,17 @@ class Engine(BaseEngine):
         self._path.project.joinpath("screenshots", "failure.html").write_text(
             self._page.content()
         )
+        self._page.close()
+        self._page.video.save_as(
+            self._path.project / "screenshots" / "failure.webm"
+        )
         self._app.logs()
 
     def on_success(self):
         self._page.close()
         self._page.video.save_as(
-            self._path.project / "screenshots" / f"{self.story.slug}.mp4"
+            self._path.project / "screenshots" / f"{self.story.slug}.webm"
         )
+        
         if self._rewrite:
             self.new_story.save()
