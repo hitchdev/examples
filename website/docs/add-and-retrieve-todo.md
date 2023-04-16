@@ -4,12 +4,22 @@ In this story we call the API to buy bread
 and then see that bread is on the list.
 
 
-![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo.gif)
+## Video
+
+<img 
+   src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo.gif"
+   height="250px"
+/>
+
+## Steps
 
 
 * When the website is loaded
 
-![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-1-screenshot.png)
+<img 
+  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-1-screenshot.png"
+  height="250px"
+/>
 
 * Enter text `Add bread` on `todo text`.
 
@@ -18,4 +28,7 @@ and then see that bread is on the list.
 * Then text `Add bread` should appear on first `todo list item`.
 
 
-![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-5-screenshot.png)
+<img 
+  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-5-screenshot.png"
+  height="250px"
+/>

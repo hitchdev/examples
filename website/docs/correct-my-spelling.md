@@ -7,12 +7,22 @@ to detect misspellings and replies to the API with a suggestion
 instead of adding it to the to do list.
 
 
-![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling.gif)
+## Video
+
+<img 
+   src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling.gif"
+   height="250px"
+/>
+
+## Steps
 
 
 * When the website is loaded
 
-![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling-1-screenshot.png)
+<img 
+  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling-1-screenshot.png"
+  height="250px"
+/>
 
 * Enter text `biuy breod` on `todo text`.
 
@@ -22,4 +32,7 @@ instead of adding it to the to do list.
 * Then text `Did you mean "buy bread"?` should appear on `error`.
 
 
-![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling-5-screenshot.png)
+<img 
+  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling-5-screenshot.png"
+  height="250px"
+/>

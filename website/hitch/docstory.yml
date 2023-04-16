@@ -3,7 +3,14 @@ story: |
   
   {{ about }}
   
-  ![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/{{ slug }}.gif)
+  ## Video
+  
+  <img 
+     src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/{{ slug }}.gif"
+     height="250px"
+  />
+  
+  ## Steps
   
   {% for step in steps %}
   {{ step.documentation() }}
@@ -26,4 +33,7 @@ steps:
     {% endif %}
 
   screenshot: |
-    ![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png)
+    <img 
+      src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png"
+      height="250px"
+    />
