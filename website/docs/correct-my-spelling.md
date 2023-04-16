@@ -6,8 +6,7 @@ The API uses TextBlob (https://textblob.readthedocs.io/en/dev/)
 to detect misspellings and replies to the API with a suggestion
 instead of adding it to the to do list.
 
-
-![](../../screenshots/correct-my-spelling.mp4)
+https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling.mp4
 
 
 * When the website is loaded
