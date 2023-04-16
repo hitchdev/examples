@@ -7,7 +7,7 @@ and sees it showing up.
 ## Video
 
 <img 
-   src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo.gif"
+   src="../screenshots/add-and-retrieve-todo.gif?raw=1"
    height="250px"
 />
 
@@ -17,7 +17,7 @@ and sees it showing up.
 * When the website is loaded
 
 <img 
-  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-0-load_website.png"
+  src="../screenshots/add-and-retrieve-todo-0-load_website.png?raw=1"
   height="250px"
 />
 
@@ -29,7 +29,7 @@ and sees it showing up.
 
 
 <img 
-  src="https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-3-should_appear.png"
+  src="../screenshots/add-and-retrieve-todo-3-should_appear.png?raw=1"
   height="250px"
 />
 
