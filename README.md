@@ -2,6 +2,8 @@
 
 [![Example Tests Running on Github Actions](https://github.com/hitchdev/examples/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/examples/actions/workflows/regression.yml)
 
+[![Example stories and docs](https://raw.githubusercontent.com/hitchdev/examples/main/.github/hitchstory-screenshots-small.png)](https://raw.githubusercontent.com/hitchdev/examples/main/.github/hitchstory-screenshots.png)
+
 This project contains complete examples for how
 [HitchStory](https://hitchdev.com/hitchstory)
 can be used as a testing and living documentation framework:
