@@ -4,7 +4,7 @@ In this story we call the API to buy bread
 and then see that bread is on the list.
 
 
-![](../../screenshots/add-and-retrieve-todo.gif)
+![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo.gif)
 
 
 * When the website is loaded

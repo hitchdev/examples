@@ -7,11 +7,7 @@ to detect misspellings and replies to the API with a suggestion
 instead of adding it to the to do list.
 
 
-![](../../screenshots/correct-my-spelling.gif)
-
-
 ![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling.gif)
-
 
 
 * When the website is loaded
