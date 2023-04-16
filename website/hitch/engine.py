@@ -84,7 +84,10 @@ class Engine(BaseEngine):
         self._playwright_server.start()
         self._playwright_server.wait_until_ready()
         self._playwright = sync_playwright().start()
-        self._browser = self._playwright.chromium.connect(self._playwright_server.ws())
+        self._browser = self._playwright\
+            .chromium\
+            .connect(self._playwright_server.ws())\
+            .new_context(record_video_dir="videos/")
         self._page = self._browser.new_page()
         self._page.set_default_navigation_timeout(10000)
         self._page.set_default_timeout(10000)
@@ -138,5 +141,9 @@ class Engine(BaseEngine):
         self._app.logs()
 
     def on_success(self):
+        self._page.close()
+        self._page.video.save_as(
+            self._path.project / "screenshots" / f"{self.story.slug}.mp4"
+        )
         if self._rewrite:
             self.new_story.save()

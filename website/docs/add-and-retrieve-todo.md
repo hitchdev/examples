@@ -4,6 +4,8 @@ In this story we call the API to buy bread
 and then see that bread is on the list.
 
 
+![](../../screenshots/add-and-retrieve-todo.mp4)
+
 
 * When the website is loaded
 

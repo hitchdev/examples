@@ -3,6 +3,8 @@ story: |
   
   {{ about }}
   
+  ![](../../screenshots/{{ slug }}.mp4)
+  
   {% for step in steps %}
   {{ step.documentation() }}
   {% endfor %}
