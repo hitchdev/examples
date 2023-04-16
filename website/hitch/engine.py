@@ -87,6 +87,9 @@ class PlaywrightServer:
 
 class Engine(BaseEngine):
     """Python engine for running tests."""
+    info_definition = InfoDefinition(
+        context=InfoProperty(schema=Str()),
+    )
 
     def __init__(self, paths, rewrite=False, recordings=False):
         self._path = paths
