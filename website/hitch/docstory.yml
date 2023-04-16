@@ -3,7 +3,7 @@ story: |
   
   {{ about }}
   
-  ![](../../screenshots/{{ slug }}.mp4)
+  ![](../../screenshots/{{ slug }}.gif)
   
   {% for step in steps %}
   {{ step.documentation() }}

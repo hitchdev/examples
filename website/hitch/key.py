@@ -36,7 +36,7 @@ def ratdd(keywords):
     """
     Run story with name containing keywords and rewrite.
     """
-    _storybook(rewrite=True).shortcut(*keywords).play()
+    _storybook(rewrite=True, recordings=True).shortcut(*keywords).play()
 
 
 @cli.command()
@@ -64,8 +64,8 @@ def screenshotgen():
     """
     Regenerate screenshots for use in docs.
     """
-    _storybook(take_screenshots=True).only_uninherited().ordered_by_name().play()
-    
+    _storybook(recordings=True).only_uninherited().ordered_by_name().play()
+
 
 @cli.command()
 def docgen():

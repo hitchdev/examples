@@ -21,9 +21,9 @@ from slugify import slugify
 # This lets IPython.embed play well with playwright
 # since they both run an event loop
 import nest_asyncio
+
 nest_asyncio.apply()
 # Use __import__('IPython').embed()
-
 
 
 class App:
@@ -68,13 +68,13 @@ class PlaywrightServer:
 class Engine(BaseEngine):
     """Python engine for running tests."""
 
-    def __init__(self, paths, rewrite=False, take_screenshots=False):
+    def __init__(self, paths, rewrite=False, recordings=False):
         self._path = paths
         self._app = App(Command("podman").in_dir(self._path.project))
         self._playwright_server = PlaywrightServer(
             Command("podman").in_dir(self._path.project)
         )
-        self._take_screenshots = take_screenshots
+        self._recordings = recordings
         self._rewrite = rewrite
 
     def set_up(self):
@@ -84,10 +84,9 @@ class Engine(BaseEngine):
         self._playwright_server.start()
         self._playwright_server.wait_until_ready()
         self._playwright = sync_playwright().start()
-        self._browser = self._playwright\
-            .chromium\
-            .connect(self._playwright_server.ws())\
-            .new_context(record_video_dir="videos/")
+        self._browser = self._playwright.chromium.connect(
+            self._playwright_server.ws()
+        ).new_context(record_video_dir="videos/")
         self._page = self._browser.new_page()
         self._page.set_default_navigation_timeout(10000)
         self._page.set_default_timeout(10000)
@@ -95,16 +94,16 @@ class Engine(BaseEngine):
     def load_website(self):
         self._page.goto("http://localhost:5000")
         self._screenshot()
-    
+
     def enter(self, on, text):
         self._page.get_by_test_id(slugify(on)).fill(text)
         self._screenshot()
-    
+
     def click(self, on):
         self._page.get_by_test_id(slugify(on)).click()
-    
+
     def _screenshot(self):
-        if self._take_screenshots:
+        if self._recordings:
             filename = "{}-{}-{}.png".format(
                 self.story.slug,
                 self.current_step.index,
@@ -122,8 +121,7 @@ class Engine(BaseEngine):
         self._screenshot()
 
     def pause(self):
-        __import__('IPython').embed()
-
+        __import__("IPython").embed()
 
     def tear_down(self):
         if hasattr(self, "_browser"):
@@ -139,16 +137,31 @@ class Engine(BaseEngine):
             self._page.content()
         )
         self._page.close()
-        self._page.video.save_as(
-            self._path.project / "screenshots" / "failure.webm"
-        )
+        self._page.video.save_as(self._path.project / "screenshots" / "failure.webm")
         self._app.logs()
 
     def on_success(self):
         self._page.close()
-        self._page.video.save_as(
-            self._path.project / "screenshots" / f"{self.story.slug}.webm"
-        )
-        
+
+        webm_path = self._path.project / "screenshots" / f"{self.story.slug}.webm"
+        gif_path = self._path.project / "screenshots" / f"{self.story.slug}.gif"
+        palette_path = self._path.project / "screenshots" / "palette.png"
+        self._page.video.save_as(webm_path)
+        ffmpeg = Command("ffmpeg", "-y")
+        ffmpeg("-i", webm_path, "-vf", "palettegen", palette_path).output()
+        ffmpeg(
+            "-i",
+            webm_path,
+            "-i",
+            palette_path,
+            "-filter_complex",
+            "paletteuse",
+            "-r",
+            "10",
+            gif_path,
+        ).output()
+        webm_path.unlink()
+        palette_path.unlink()
+
         if self._rewrite:
             self.new_story.save()
