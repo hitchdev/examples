@@ -7,9 +7,11 @@ The following are four rudimentary to do apps each tested with
 [StrictYAML based](https://hitchdev.com/hitchstory/why/strictyaml)
 FOSS python integration testing framework.
 
-*Unlike* with other testing frameworks these declarative stories are type-safe,
-they can rewrite themselves from program output and they can
-autogenerate beautiful documentation with a minimal amount of work.
+*Unlike* with other testing frameworks these declarative stories can:
+
+* **autogenerate beautiful documentation** with a minimal amount of effort.
+* **rewrite themselves from program output**
+* are **type-safe**
 
 To do App | Storytests | Cool Features | Story Engine
 ---|---|---|---
@@ -126,6 +128,9 @@ This is done to segregate the test code from the application code.
 # Future work on this repo
 
 - [ ] Mount code folder with podman so "./key build" is unnecessary after code changes.
-- [ ] Mock the passage of time - to do app with reminder.
-- [ ] Demonstrate how an app with a postgres database could be easily tested.
-- [ ] Demonstrate story inheritance (e.g. logging in story -> add todo).
+- [ ] Integrate containerized postgres running with all of the apps, seeded with [given preconditions](https://hitchdev.com/hitchstory/using/given/).
+- [ ] Mock the passage of time with a step - implement reminders into the to do apps.
+- [ ] Handle a REST API response which returns a different UUID each time it is called.
+- [ ] Demonstrate story inheritance (e.g. logging in story -> add todo) using all of the [currently documented inheritance features listed here](https://hitchdev.com/hitchstory/using/).
+
+Have suggestions? What kind of gnarly integration tests would you find most interesting? Raise an issue if you have more ideas.
