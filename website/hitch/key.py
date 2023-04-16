@@ -34,7 +34,7 @@ def _storybook(**settings):
 @argument("keywords", nargs=-1)
 def ratdd(keywords):
     """
-    Run story with name containing keywords and rewrite.
+    Run story with name containing keywords in rewrite mode.
     """
     _storybook(rewrite=True, recordings=True).shortcut(*keywords).play()
 
@@ -60,9 +60,10 @@ def regression():
     _storybook().only_uninherited().ordered_by_name().play()
 
 
-def screenshotgen():
+@cli.command()
+def recordings():
     """
-    Regenerate screenshots for use in docs.
+    Regenerate screenshot and videos for use in docs.
     """
     _storybook(recordings=True).only_uninherited().ordered_by_name().play()
 

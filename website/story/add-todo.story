@@ -4,6 +4,8 @@ Add and retrieve todo:
     and then see that bread is on the list.
   steps:
   - load website
+  
+  - screenshot
 
   - enter:
       on: todo text
@@ -15,3 +17,5 @@ Add and retrieve todo:
       text: Add bread
       on: todo list item
       which: first
+
+  - screenshot

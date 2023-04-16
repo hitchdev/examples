@@ -24,3 +24,6 @@ steps:
     {% else %}
     * Then text `{{ text }}` should appear on `{{ on }}`.
     {% endif %}
+
+  screenshot: |
+    ![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/{{ this_story.slug }}-{{ this_step.index }}-{{ this_step.slug }}.png)

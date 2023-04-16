@@ -93,16 +93,14 @@ class Engine(BaseEngine):
 
     def load_website(self):
         self._page.goto("http://localhost:5000")
-        self._screenshot()
 
     def enter(self, on, text):
         self._page.get_by_test_id(slugify(on)).fill(text)
-        self._screenshot()
 
     def click(self, on):
         self._page.get_by_test_id(slugify(on)).click()
 
-    def _screenshot(self):
+    def screenshot(self):
         if self._recordings:
             filename = "{}-{}-{}.png".format(
                 self.story.slug,
@@ -118,7 +116,6 @@ class Engine(BaseEngine):
             which = 0 if which == "first" else int(which) - 1
             item = self._page.locator(".test-{}".format(slugify(on))).nth(which)
         expect(item).to_contain_text(text)
-        self._screenshot()
 
     def pause(self):
         __import__("IPython").embed()

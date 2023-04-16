@@ -9,9 +9,13 @@ and then see that bread is on the list.
 
 * When the website is loaded
 
+![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-1-screenshot.png)
+
 * Enter text `Add bread` on `todo text`.
 
 * Click on `add`.
 
 * Then text `Add bread` should appear on first `todo list item`.
 
+
+![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/add-and-retrieve-todo-5-screenshot.png)

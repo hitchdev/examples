@@ -12,6 +12,8 @@ instead of adding it to the to do list.
 
 * When the website is loaded
 
+![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling-1-screenshot.png)
+
 * Enter text `biuy breod` on `todo text`.
 
 * Click on `add`.
@@ -19,3 +21,5 @@ instead of adding it to the to do list.
 
 * Then text `Did you mean "buy bread"?` should appear on `error`.
 
+
+![](https://raw.githubusercontent.com/hitchdev/examples/main/website/screenshots/correct-my-spelling-5-screenshot.png)

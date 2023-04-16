@@ -8,6 +8,8 @@ Correct my spelling:
   steps:
   - load website
   
+  - screenshot
+  
   - enter:
       on: todo text
       text: biuy breod
@@ -17,3 +19,5 @@ Correct my spelling:
   - should appear:
       text: Did you mean "buy bread"?
       on: error
+
+  - screenshot
