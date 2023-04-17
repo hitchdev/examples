@@ -24,8 +24,6 @@ All of the above tests are also running on Github Actions with [no tweaks](https
 
 [![Example Tests Running on Github Actions](https://github.com/hitchdev/examples/actions/workflows/regression.yml/badge.svg)](https://github.com/hitchdev/examples/actions/workflows/regression.yml)
 
-If you'd like help with introducing capabilities like these to your project, [contact me now](hitchdev.com/consulting) for a free consultation.
-
 ## Run them yourself
 
 **Podman must be installed on your system first.**
