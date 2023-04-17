@@ -1,5 +1,3 @@
-# HitchStory Examples
-
 [![Example stories and docs](https://raw.githubusercontent.com/hitchdev/examples/main/.github/hitchstory-screenshots-small.png)](https://raw.githubusercontent.com/hitchdev/examples/main/.github/hitchstory-screenshots.png)
 
 The following are four rudimentary to do apps each tested with
