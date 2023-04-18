@@ -33,7 +33,7 @@ class App:
         self._podman = podman
 
     def start(self):
-        self._podman("run", "--rm", "-d", "--name", "app", "app").output()
+        self._podman("run", "--rm", "-v", "/src/app:/app", "-d", "--name", "app", "app").output()
         self.wait_until_ready()
 
     def wait_until_ready(self):
@@ -41,7 +41,7 @@ class App:
         time.sleep(1)
 
     def stop(self):
-        self._podman("stop", "app", "--time", "1").output()
+        self._podman("stop", "app", "--time", "1").ignore_errors().output()
 
     def logs(self):
         self._podman("logs", "app").run()
@@ -73,7 +73,7 @@ class PlaywrightServer:
             self._browser.close()
         if hasattr(self, "_playwright"):
             self._playwright.stop()
-        self._podman("stop", "playwright", "--time", "1").output()
+        self._podman("stop", "playwright", "--time", "1").ignore_errors().output()
 
     def new_page(self):
         self._playwright = sync_playwright().start()
@@ -105,6 +105,7 @@ class Engine(BaseEngine):
 
     def set_up(self):
         """Set up all tests."""
+        Command("podman", "container", "rm", "--all").output()
         self._app.start()
         self._playwright_server.start()
         self._page = self._playwright_server.new_page()
@@ -167,7 +168,6 @@ class Engine(BaseEngine):
             self._app.logs()
 
         # Clean up
-        Command("podman", "container", "rm", "--all").output()
 
     def on_success(self):
         """Run before teardown, only on success."""

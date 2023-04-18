@@ -123,7 +123,6 @@ This is done to segregate the test code from the application code.
 
 # Future work on this repo
 
-- [ ] Mount code folder with podman so "./key build" is unnecessary after code changes.
 - [ ] Integrate containerized postgres running with all of the apps, seeded with [given preconditions](https://hitchdev.com/hitchstory/using/given/).
 - [ ] Mock the passage of time with a step - implement reminders into the to do apps.
 - [ ] Handle a REST API response which returns a different UUID each time it is called.

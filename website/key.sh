@@ -14,7 +14,7 @@ hitchrun() {
     podman run --privileged -it --rm \
         -v $PROJECT_DIR:/src \
         -v $GEN_VOLUME_NAME:/gen \
-        -p 5555:5555 \
+        --network host \
         --workdir /src \
         $IMAGE_NAME \
         $1
