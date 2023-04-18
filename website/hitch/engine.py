@@ -11,7 +11,7 @@ from strictyaml import Optional, Str, Map, Int, Bool, Enum, load, MapPattern
 from path import Path
 from shlex import split
 from templex import Templex
-from commandlib import Command
+from commandlib import Command, CommandError
 import requests
 import time
 from playwright.sync_api import sync_playwright, expect
@@ -38,7 +38,7 @@ class App:
         ).output()
 
     def wait_until_ready(self):
-        # Not ideal - should be replaced with port listener
+        """Wait for port message"""
         logs = self._podman("logs", "-f", "app").interact().run()
         logs.wait_until_output_contains("Running on http://127.0.0.1:5000")
         logs.kill()
@@ -47,7 +47,10 @@ class App:
         self._podman("stop", "app", "--time", "1").ignore_errors().output()
 
     def logs(self):
-        self._podman("logs", "app").run()
+        try:
+            self._podman("logs", "app").run()
+        except CommandError:
+            pass
 
 
 class PlaywrightServer:
@@ -63,30 +66,25 @@ class PlaywrightServer:
         self._podman("run", "--rm", "-d", "--name", "playwright", "playwright").output()
 
     def wait_until_ready(self):
-        # Not ideal - should be replaced with logs / port listener
+        """Wait for logs to print out port."""
         logs = self._podman("logs", "-f", "playwright").interact().run()
         logs.wait_until_output_contains("Listening on")
         self._ws = logs.stripshot().replace("Listening on", "").strip()
         logs.kill()
-
-    def ws(self):
-        if self._ws is not None:
-            return self._ws
-        else:
-            output = self._podman("logs", "playwright").output()
-            self._ws = output.replace("Listening on", "").strip()
-        return output
 
     def stop(self):
         if hasattr(self, "_browser"):
             self._browser.close()
         if hasattr(self, "_playwright"):
             self._playwright.stop()
-        self._podman("stop", "playwright", "--time", "1").ignore_errors().output()
+        try:
+            self._podman("stop", "playwright", "--time", "1").ignore_errors().output()
+        except CommandError:
+            pass
 
     def new_page(self):
         self._playwright = sync_playwright().start()
-        self._browser = self._playwright.chromium.connect(self.ws()).new_context(
+        self._browser = self._playwright.chromium.connect(self._ws).new_context(
             record_video_dir="videos/"
         )
         self._page = self._browser.new_page()
@@ -107,14 +105,14 @@ class Engine(BaseEngine):
         self._recordings = recordings
         self._rewrite = rewrite
 
-        podman = Command("podman").in_dir(self._path.project)
+        self._podman = Command("podman").in_dir(self._path.project)
 
-        self._app = App(podman)
-        self._playwright_server = PlaywrightServer(podman)
+        self._app = App(self._podman)
+        self._playwright_server = PlaywrightServer(self._podman)
 
     def set_up(self):
         """Set up all tests."""
-        Command("podman", "container", "rm", "--all").output()
+        self._podman("container", "rm", "--all").output()
         self._app.start()
         self._playwright_server.start()
         self._app.wait_until_ready()
