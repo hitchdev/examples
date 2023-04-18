@@ -33,12 +33,15 @@ class App:
         self._podman = podman
 
     def start(self):
-        self._podman("run", "--rm", "-v", "/src/app:/app", "-d", "--name", "app", "app").output()
-        self.wait_until_ready()
+        self._podman(
+            "run", "--rm", "-v", "/src/app:/app", "-d", "--name", "app", "app"
+        ).output()
 
     def wait_until_ready(self):
         # Not ideal - should be replaced with port listener
-        time.sleep(1)
+        logs = self._podman("logs", "-f", "app").interact().run()
+        logs.wait_until_output_contains("Running on http://127.0.0.1:5000")
+        logs.kill()
 
     def stop(self):
         self._podman("stop", "app", "--time", "1").ignore_errors().output()
@@ -54,18 +57,24 @@ class PlaywrightServer:
 
     def __init__(self, podman):
         self._podman = podman
+        self._ws = None
 
     def start(self):
         self._podman("run", "--rm", "-d", "--name", "playwright", "playwright").output()
-        self.wait_until_ready()
 
     def wait_until_ready(self):
         # Not ideal - should be replaced with logs / port listener
-        time.sleep(1)
+        logs = self._podman("logs", "-f", "playwright").interact().run()
+        logs.wait_until_output_contains("Listening on")
+        self._ws = logs.stripshot().replace("Listening on", "").strip()
+        logs.kill()
 
-    def _ws(self):
-        output = self._podman("logs", "playwright").output()
-        output = output.replace("Listening on", "").strip()
+    def ws(self):
+        if self._ws is not None:
+            return self._ws
+        else:
+            output = self._podman("logs", "playwright").output()
+            self._ws = output.replace("Listening on", "").strip()
         return output
 
     def stop(self):
@@ -77,7 +86,7 @@ class PlaywrightServer:
 
     def new_page(self):
         self._playwright = sync_playwright().start()
-        self._browser = self._playwright.chromium.connect(self._ws()).new_context(
+        self._browser = self._playwright.chromium.connect(self.ws()).new_context(
             record_video_dir="videos/"
         )
         self._page = self._browser.new_page()
@@ -108,6 +117,8 @@ class Engine(BaseEngine):
         Command("podman", "container", "rm", "--all").output()
         self._app.start()
         self._playwright_server.start()
+        self._app.wait_until_ready()
+        self._playwright_server.wait_until_ready()
         self._page = self._playwright_server.new_page()
 
     def load_website(self):
@@ -166,8 +177,6 @@ class Engine(BaseEngine):
             )
         if hasattr(self, "_app"):
             self._app.logs()
-
-        # Clean up
 
     def on_success(self):
         """Run before teardown, only on success."""
