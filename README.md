@@ -53,8 +53,8 @@ $ cd examples/commandlib -OR- restapi -OR- website -OR- pythonapi
 $ ./key.sh make
 ```
 
-> **Note**
->This builds downloads and build the podman containers.
+This downloads and builds the container and python packages the
+tests need to run in an isolated environment.
 
 
 ## Run all tests
@@ -108,7 +108,8 @@ $ ./key.sh recordings
 
 ## Clean up everything
 
-This will delete everything created to run these tests (container/volume):
+When ./key.sh make is run on any of these 4 project, it will create one podman image and one volume
+each. This command cleans them both up:
 
 ```
 $ ./key.sh clean all
