@@ -15,7 +15,9 @@ class Engine(BaseEngine):
 
     def __init__(self, paths, rewrite=False):
         self._path = paths
-        self._cmd = Command("podman", "run", "-it", "app").in_dir(self._path.project)
+        self._cmd = Command(
+            "podman", "run", "-it", "-v", "/src/app:/app", "app"
+        ).in_dir(self._path.project)
         self._rewrite = rewrite
 
     def set_up(self):
