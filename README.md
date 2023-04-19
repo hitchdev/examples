@@ -83,9 +83,9 @@ update the story accordingly.
 $ ./key.sh ratdd correct
 ```
 
-For the website app, it also retakes the screenshot and video.
+For the REST API project, it will rewrite the REST API responses. For the Python API project it will rewrite the expected output. For the website app, it retakes the screenshot and video.
 
-Rewriting behavior is controlled from `engine.py`.
+Rewrite behavior is controlled from `engine.py` - see where `self._rewrite` is used to see how.
 
 ## Generate documentation from stories
 
