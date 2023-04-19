@@ -7,10 +7,16 @@ FOSS python integration testing framework.
 
 *Unlike* other testing frameworks these terse, simple, type-safe stories can, easily:
 
-* **autogenerate beautiful documentation** with a minimal amount of effort.
 * **rewrite themselves from program output**
+* **autogenerate beautiful documentation** with a minimal amount of effort.
 
 <table>
+  <tr>
+    <td>Web (YAML story -> Markdown docs)</td>
+    <td>REST API (story -> docs)</td>
+    <td>Interactive CLI (story -> docs)</td>
+    <td>Python API (story -> docs)</td>
+  </tr>
   <tr>
     <td><img src="https://hitchdev.com/images/web-vertical.png" width="320" /> </td>
     <td><img src="https://hitchdev.com/images/rest-vertical.png" width="320" /></td>
