@@ -5,10 +5,13 @@ This repo contains four to do apps, each tested with
 [StrictYAML based](https://hitchdev.com/hitchstory/why/strictyaml)
 FOSS python integration testing framework.
 
-*Unlike* other testing frameworks these terse, simple, type-safe stories can:
+Unlike other testing frameworks these terse, simple, type-safe stories can:
 
-* **rewrite themselves from program output**
-* **autogenerate comprehensive documentation** with a minimal amount of effort.
+## Rewrite themselves based upon program output
+
+[![Test rewriting itself](https://hitchdev.com/images/video-thumb.png)](http://www.youtube.com/watch?v=Aqk5Sao27O0 "Test rewriting itself")
+
+## Generate documentation
 
 <table>
   <tr>
